@@ -1,0 +1,30 @@
+{
+  "name": "halleyx-challenge",
+  "version": "1.0.0",
+  "description": "Halleyx Full Stack Engineer Challenge 2026 – A Vue.js + MERN stack web application with structured documentation (Obsidian), version control (GitHub), and a working demo, built within 5 days, demonstrating full-stack development, clean architecture, and modern web practices.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DHARAN-I-DHARAN/Halleyx_Fullstack_Challange.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/DHARAN-I-DHARAN/Halleyx_Fullstack_Challange/issues"
+  },
+  "homepage": "https://github.com/DHARAN-I-DHARAN/Halleyx_Fullstack_Challange#readme",
+  "dependencies": {
+    "cors": "^2.8.6",
+    "dotenv": "^17.3.1",
+    "express": "^5.2.1",
+    "mongoose": "^9.3.0",
+    "uuid": "^13.0.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.14"
+  }
+}
