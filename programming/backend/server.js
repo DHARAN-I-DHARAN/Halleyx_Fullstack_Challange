@@ -21,6 +21,10 @@ app.get("/", (req, res) => {
     });
 });
 
+app.use("/api/workflows", require("./routes/workflowRoutes"));
+app.use("/api/steps", require("./routes/stepRoutes"));
+app.use("/api/rules", require("./routes/ruleRoutes"));
+
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {
