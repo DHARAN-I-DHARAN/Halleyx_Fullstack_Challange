@@ -1,14 +1,14 @@
 import { createRouter, createWebHistory } from "vue-router";
-import WorkflowListView from "@/views/WorkflowListView.vue";
-import WorkflowEditorView from "@/views/WorkflowEditorView.vue";
+import WorkflowsView from "@/views/WorkflowsView.vue";
+import WorkflowDetailsView from "@/views/WorkflowDetailsView.vue";
 import ExecutionView from "@/views/ExecutionView.vue";
-import AuditLogView from "@/views/AuditLogView.vue";
+import DashboardView from "@/views/DashboardView.vue";
 
 const routes = [
-  { path: "/", name: "workflows", component: WorkflowListView },
-  { path: "/workflow/new", name: "workflow-create", component: WorkflowEditorView },
+  { path: "/workflows", name: "workflows", component: WorkflowsView },
+  { path: "/workflow/:id", name: "workflow-details", component: WorkflowDetailsView },
   { path: "/executions", name: "executions", component: ExecutionView },
-  {cpath: "/audit-logs", name: "audit-logs", component: AuditLogView},
+  {cpath: "/", name: "dashboard", component: DashboardView},
 ];
 
 const router = createRouter({
