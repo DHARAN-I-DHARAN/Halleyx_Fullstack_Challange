@@ -17,7 +17,7 @@ const RuleSchema = new mongoose.Schema(
             ref: "Step",
             default: null,
         },
-        prioroty: {
+        priority: {
             type: Number,
             default: 1,
         },

@@ -4,17 +4,17 @@
     "type": "split",
     "children": [
       {
-        "id": "b0a235c057715294",
+        "id": "f1be49928b71d533",
         "type": "tabs",
         "children": [
           {
-            "id": "befe2f81ef5e7c7b",
+            "id": "8c01444136083811",
             "type": "leaf",
             "state": {
-              "type": "graph",
+              "type": "empty",
               "state": {},
-              "icon": "lucide-git-fork",
-              "title": "Graph view"
+              "icon": "lucide-file",
+              "title": "New tab"
             }
           }
         ]
@@ -179,18 +179,43 @@
       "bases:Create new base": false
     }
   },
-  "active": "befe2f81ef5e7c7b",
+  "active": "8c01444136083811",
   "lastOpenFiles": [
+    "programming/frontend/src/components/ExecutionLogViewer.vue",
+    "programming/frontend/src/components/ExecutionForm.vue",
+    "programming/frontend/src/components/RuleForm.vue",
+    "programming/frontend/src/components/StepForm.vue",
+    "programming/frontend/src/components/WorkflowForm.vue",
+    "programming/frontend/src/views/WorkflowDetailsView.vue",
+    "programming/frontend/src/views/WorkflowsView.vue",
+    "programming/frontend/src/views/DashboardView.vue",
+    "programming/frontend/src/api/axios.js",
+    "programming/frontend/src/components",
+    "programming/frontend/src/api/counter.js",
+    "Workflow CRUD testing.md",
+    "documentation/Workflow CRUD testing.md",
+    "node_modules/yaml/README.md",
+    "node_modules/axios/README.md",
+    "node_modules/confbox/dist/THIRD-PARTY-LICENSES.md",
+    "node_modules/@vue/runtime-dom/README.md",
+    "node_modules/axios/lib/helpers/README.md",
+    "node_modules/axios/lib/env/README.md",
+    "node_modules/axios/lib/core/README.md",
+    "node_modules/axios/lib/adapters/README.md",
+    "node_modules/unplugin-utils/node_modules/picomatch/README.md",
+    "node_modules/unplugin-utils/README.md",
+    "node_modules/unplugin/node_modules/picomatch/README.md",
+    "node_modules/unplugin/README.md",
+    "node_modules/mlly/node_modules/pkg-types/README.md",
+    "node_modules/mlly/node_modules/confbox/README.md",
+    "node_modules/mlly/README.md",
+    "node_modules/@vue/devtools-api/README.md",
+    "node_modules/vue-router/node_modules/readdirp/README.md",
+    "node_modules/vue-router/node_modules/picomatch/README.md",
+    "node_modules/vue-router/node_modules/chokidar/README.md",
+    "node_modules/vue-router/README.md",
+    "node_modules/@babel/parser/CHANGELOG.md",
     "node_modules/ms/license.md",
-    "documentation/Challenge - 1.md",
-    "documentation/Architecture.md",
-    "Phase 02.md",
-    "documentation/Phase",
-    "documentation/API Design.md",
-    "programming/backend/models/Execution.js",
-    "programming/backend/models/Rule.js",
-    "programming/backend/models/Step.js",
-    "programming/backend/models/Workflow.js",
-    "documentation/README.md"
+    "documentation/Challenge - 1.md"
   ]
 }
