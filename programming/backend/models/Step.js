@@ -14,7 +14,7 @@ const StepSchema = new mongoose.Schema(
         },
         stepType: {
             type: String,
-            enum: ["task","approval","notification"],
+            enum: ["task","approval","notification","end"],
             requried: true,
         },
         order: {

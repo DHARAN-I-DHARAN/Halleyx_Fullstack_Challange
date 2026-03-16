@@ -1,5 +1,7 @@
 const Step = require("../models/Step");
 const Rule = require("../models/Rule");
+const { evaluateRulesForStep } = require("../services/ruleEngine");
+
 
 exports.createRule = async (req, res) => {
     try {
@@ -55,6 +57,30 @@ exports.deleteRule = async (req, res) => {
             return res.status(404).json({ error: "Rule not found" });
         }
         res.json({ message: "Rule deleted successfully" });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+
+exports.testRuleEngine = async (req, res) => {
+    try {
+        const { stepId } = req.params;
+        const inputData = req.body;
+
+        const step = await Step.findById(stepId);
+        if (!step) {
+            return res.status(404).json({ error: "Step not found" });
+        }
+
+        const result = await evaluateRulesForStep(stepId, inputData);
+
+        res.json({
+            message: "Rule evaluation completed",
+            stepId,
+            inputData,
+            selectedRule: result.selectedRule,
+            evaluatedRules: result.evaluatedRules,
+        });
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
