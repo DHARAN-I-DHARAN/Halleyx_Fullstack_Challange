@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="app-container">
     <nav class="navbar">
       <div class="brand">Halleyx Challange</div>
       <div class="nav-links">
@@ -9,15 +9,16 @@
       </div>
     </nav>
 
-    <main class="main-content">
+    <div class="main-content">
       <router-view />
-    </main>
+    </div>
   </div>
 </template>
 
 <script setup></script>
 
 <style scoped>
+
 .navbar {
   display: flex;
   justify-content: space-between;
@@ -47,7 +48,13 @@
 }
 
 .main-content {
-  background: #f8fafc;
   min-height: calc(100vh - 64px);
+  padding: 20px;
+  background-color: rgba(68, 196, 228, 0.9);
+  background-blend-mode: lighten;
+}
+
+.body {
+text-align: center;
 }
 </style>

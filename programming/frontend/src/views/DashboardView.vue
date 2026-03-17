@@ -3,7 +3,7 @@
     <h1>Halleyx Workflow Engine</h1>
     <p>Frontend dashboard for workflows, rules, and executions.</p>
 
-    <div class="card-grief">
+    <div class="card-grid">
       <div class="card">
         <h2>workflows</h2>
         <p>create and manage workflows</p>
@@ -25,19 +25,26 @@
 <style scoped>
 .page{
   padding:24px;
+  text-align:center;
 }
+
  .card-grid{
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  display: flex;
+  flex-direction: row;
   gap: 16px;
   margin-top:24px;
+  justify-content: center;
+  align-items: center;
  }
 
   .card{
-    border: 1px solid #ddd;
-    border-radius: 10px;
-    padding: 20px;
-    background: #fff;
+    background: #6ce889;
+    min-height:200px;
+    max-width: 500px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin:20px;
   } 
   
   .btn{
@@ -49,4 +56,5 @@
     padding: 10px 14px;
     border-radius:6px;
   }
+
   </style>

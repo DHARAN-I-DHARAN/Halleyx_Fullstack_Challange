@@ -1,7 +1,7 @@
 <template>
   <div class="page">
     <div class="header-row">
-      <div>
+      <div class="header">
         <h1>Workflows</h1>
         <p>Create and manage workflow definitions.</p>
       </div>
@@ -72,7 +72,7 @@ const createWorkflow = async (payload) => {
     await api.post("/workflows", payload);
     await fetchWorkflows();
   } catch (err) {
-    error.value = err.response?.data?.error || "Failed to crete workflow";
+    error.value = err.response?.data?.error || "Failed to create workflow";
   }
 };
 
@@ -95,7 +95,9 @@ onMounted(() => {
 .page {
   padding: 24px;
 }
-
+.header{
+  text-align:center;
+}
 .header-row {
   display: flex;
   justify-content: space-between;
@@ -105,7 +107,7 @@ onMounted(() => {
 
 .layout {
   display: grid;
-  grid-template-columns: 360px 1fr;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
   gap: 20px;
 }
 
@@ -124,11 +126,12 @@ onMounted(() => {
 }
 
 .workflow-item {
+  text-align:center;
   display: flex;
   justify-content: space-between;
   gap: 16px;
   padding: 16px;
-  border: 1px solid #e5e7eb;
+  border: 1px solid #bac0ca;
   border-radius: 8px;
 }
 
@@ -136,16 +139,18 @@ onMounted(() => {
   display: flex;
   gap: 10px;
   align-items: center;
+  justify-content: center;
 }
 
 .btn {
-  background: #111827;
+  background: #f2714d;
   color: white;
   border: none;
   padding: 10px 14px;
   border-radius: 6px;
   cursor: pointer;
   text-decoration: none;
+  text-align: center;
 }
 
 .secondary {

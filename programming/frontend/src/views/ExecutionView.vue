@@ -21,8 +21,9 @@
             </div>
           </div>
         </div>
-
-        <ExecutionLogViewer :execution="selectedExecution" />
+        <div class="log-box list-card">
+          <ExecutionLogViewer :execution="selectedExecution" />
+        </div>
       </div>
     </div>
   </div>
@@ -49,9 +50,18 @@ const fetchExecutions = async () => {
 };
 
 const runExecution = async ({ workflowId, input }) => {
-  const res = await api.post(`/executions/workflow/${workflowId}`, input);
-  selectedExecution.value = res.data;
-  fetchExecutions();
+  try {
+    const res = await api.post(`/executions/workflow/${workflowId}`, input);
+
+    selectedExecution.value = res.data;
+
+    alert("Execution started successfully ✅");
+
+    fetchExecutions();
+  } catch (error) {
+    console.error(error);
+    alert("Execution failed ❌");
+  }
 };
 
 const viewExecution = async (exec) => {
@@ -71,12 +81,16 @@ onMounted(() => {
 </script>
 
 <style scoped>
+.h3{
+  font-weight: 100;
+}
 .page {
   padding: 24px;
+  box-sizing: border-box;
+  width: 100%;
+  overflow-x: hidden;
 }
 .layout {
-  display: grid;
-  grid-template-columns: 350px 1fr;
   gap: 20px;
 }
 .exec-item {
@@ -94,4 +108,11 @@ onMounted(() => {
 .secondary {
   background: blue;
 }
+.log-box{
+  margin-top: 20px;
+}
+.list-card {
+  width:100%;
+}
+
 </style>
