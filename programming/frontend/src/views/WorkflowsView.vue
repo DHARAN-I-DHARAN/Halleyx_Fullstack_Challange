@@ -57,10 +57,10 @@ const fetchWorkflows = async () => {
   try {
     loading.value = true;
     error.value = "";
-    const reponse = await api.get("/workflows");
-    workflows.value = reponse.data;
+    const response = await api.get("/workflows");
+    workflows.value = response.data;
   } catch (err) {
-    error.value = err.reponse?.data?.error || "Failed to fetch workflows";
+    error.value = err.response?.data?.error || "Failed to fetch workflows";
   } finally {
     loading.value = false;
   }
@@ -70,8 +70,9 @@ const createWorkflow = async (payload) => {
   try {
     error.value = "";
     await api.post("/workflows", payload);
+    await fetchWorkflows();
   } catch (err) {
-    error.value = err.reponse?.data?.error || "Failed to crete workflow";
+    error.value = err.response?.data?.error || "Failed to crete workflow";
   }
 };
 
@@ -81,7 +82,7 @@ const deleteWorkflow = async (id) => {
     await api.delete(`/workflows/${id}`);
     await fetchWorkflows();
   } catch (err){
-    error.value = err.reponse?.data?.error || "Failed to delete workflow";
+    error.value = err.response?.data?.error || "Failed to delete workflow";
   }
 };
 

@@ -6,9 +6,9 @@ import DashboardView from "@/views/DashboardView.vue";
 
 const routes = [
   { path: "/workflows", name: "workflows", component: WorkflowsView },
-  { path: "/workflow/:id", name: "workflow-details", component: WorkflowDetailsView },
+  { path: "/workflows/:id", name: "workflow-details", component: WorkflowDetailsView },
   { path: "/executions", name: "executions", component: ExecutionView },
-  {cpath: "/", name: "dashboard", component: DashboardView},
+  { path: "/", name: "dashboard", component: DashboardView},
 ];
 
 const router = createRouter({
