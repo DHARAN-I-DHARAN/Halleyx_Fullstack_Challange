@@ -2,20 +2,17 @@ const Rule = require("../models/Rule");
 const { Parser } = require("expr-eval");
 
 const evaluateCondition = (condition, inputData) => {
+    if (condition === "DEFAULT") return true;
     try {
-        if (!condition || condition.trim() === "") {
-            return false;
-        }
+        const func = new Function(
+        ...Object.keys(inputData),
+        `return ${condition}`
+        );
 
-        if (condition.trim().toUpperCase() === "DEFAULT") {
-            return true;
-        }
-
-        const parser = new Parser();
-        const expr = parser.parse(condition);
-        return Boolean(expr.evaluate(inputData));
-    } catch (error) {
-            return false;
+        return func(...Object.values(inputData));
+    } catch (err) {
+        console.error("Condition error:", condition, err);
+        return false;
     }
 };
 
