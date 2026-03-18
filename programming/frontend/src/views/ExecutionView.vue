@@ -22,7 +22,7 @@
           </div>
         </div>
         <div class="log-box list-card">
-          <ExecutionLogViewer :execution="selectedExecution" />
+          <ExecutionLogViewer :execution="selectedExecution" :key="selectedExecutionId" />
         </div>
       </div>
     </div>
@@ -37,11 +37,12 @@ import ExecutionLogViewer from "../components/ExecutionLogViewer.vue";
 
 const workflows = ref([]);
 const executions = ref([]);
+const selectedExecutionId = ref(null);
 const selectedExecution = ref(null);
 
 const fetchWorkflows = async () => {
   const res = await api.get("/workflows");
-  workflows.value = res.data;
+  workflows.value = res.data.workflows;
 };
 
 const fetchExecutions = async () => {
@@ -53,20 +54,29 @@ const runExecution = async ({ workflowId, input }) => {
   try {
     const res = await api.post(`/executions/workflow/${workflowId}`, input);
 
+    selectedExecutionId.value = res.data._id; 
     selectedExecution.value = res.data;
 
-    alert("Execution started successfully ✅");
+    alert("Execution started successfully");
 
     fetchExecutions();
   } catch (error) {
     console.error(error);
-    alert("Execution failed ❌");
+    alert("Execution failed");
   }
 };
 
 const viewExecution = async (exec) => {
-  const res = await api.get(`/executions/${exec._id}`);
-  selectedExecution.value = res.data;
+  try {
+    selectedExecutionId.value = exec._id; 
+
+    const res = await api.get(`/executions/${exec._id}`);
+
+    selectedExecution.value = res.data;
+  } catch (error) {
+    console.error(error);
+    alert("Failed to load execution");
+  }
 };
 
 const retry = async (id) => {

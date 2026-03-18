@@ -60,7 +60,7 @@ exports.deleteStep = async (req, res) => {
         await Rule.deleteMany({ step: step._id });
         await Step.findByIdAndDelete(req.params.id);
 
-        res.json({ message: "Step and related rules deleted sucessfully" });
+        res.json({ message: "Step and related rules deleted successfully" });
     } catch (error) {
         res.status(500).json({ error: error.message });
     }

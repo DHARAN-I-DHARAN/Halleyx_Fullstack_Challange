@@ -32,4 +32,6 @@ const WorkflowSchema = new mongoose.Schema(
     {timestamps: true }
 );
 
+WorkflowSchema.index({ name: "text" });      
+WorkflowSchema.index({ isActive: 1 });
 module.exports = mongoose.model("Workflow",WorkflowSchema);

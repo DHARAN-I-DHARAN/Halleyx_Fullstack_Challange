@@ -5,7 +5,7 @@ const RuleSchema = new mongoose.Schema(
         step: {
             type: mongoose.Schema.Types.ObjectId,
             ref: "Step",
-            requried: true,
+            required: true,
         },
         condition: {
             type: String,
@@ -25,4 +25,5 @@ const RuleSchema = new mongoose.Schema(
     { timestamps: true }
 );
 
+RuleSchema.index({ step: 1, priority: 1 });
 module.exports = mongoose.model("Rule", RuleSchema);

@@ -6,7 +6,7 @@ import DashboardView from "@/views/DashboardView.vue";
 
 const routes = [
   { path: "/workflows", name: "workflows", component: WorkflowsView },
-  { path: "/workflows/:id", name: "workflow-details", component: WorkflowDetailsView },
+  { path: "/workflows/:id", name: "workflow-details", component: WorkflowDetailsView, props: true, },
   { path: "/executions", name: "executions", component: ExecutionView },
   { path: "/", name: "dashboard", component: DashboardView},
 ];

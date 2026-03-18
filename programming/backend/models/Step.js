@@ -9,13 +9,13 @@ const StepSchema = new mongoose.Schema(
         },
         name: {
             type: String,
-            requried: true,
+            required: true,
             trim: true,
         },
         stepType: {
             type: String,
             enum: ["task","approval","notification","end"],
-            requried: true,
+            required: true,
         },
         order: {
             type: Number,
@@ -29,4 +29,5 @@ const StepSchema = new mongoose.Schema(
     { timestamps: true }
 );
 
+StepSchema.index({ workflow: 1, order: 1 });
 module.exports = mongoose.model("Step",StepSchema);

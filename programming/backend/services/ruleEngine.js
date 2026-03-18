@@ -1,4 +1,5 @@
 const Rule = require("../models/Rule");
+const { Parser } = require("expr-eval");
 
 const evaluateCondition = (condition, inputData) => {
     try {
@@ -10,13 +11,11 @@ const evaluateCondition = (condition, inputData) => {
             return true;
         }
 
-        const keys = Object.keys(inputData || {});
-        const values = Object.values(inputData || {});
-
-        const fn = new Function(...keys, `return (${condition});`);
-        return Boolean(fn(...values));
+        const parser = new Parser();
+        const expr = parser.parse(condition);
+        return Boolean(expr.evaluate(inputData));
     } catch (error) {
-        return false;
+            return false;
     }
 };
 
@@ -37,17 +36,17 @@ const evaluateRulesForStep = async (stepId, inputData) => {
             priority: rule.priority,
         });
 
+       
         if (result && !selectedRule) {
-            selectedRule = rule;
-            break;
+            selectedRule = rule; 
         }
+        
     }
-
     return {
         selectedRule,
-        evaluatedRules,
-    };
+        evaluatedRules,};
 };
+
 
 module.exports = {
     evaluateCondition,

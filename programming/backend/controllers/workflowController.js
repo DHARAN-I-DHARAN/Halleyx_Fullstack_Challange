@@ -14,8 +14,17 @@ exports.createWorkflow = async (req, res) => {
 
 exports.getWorkflows = async (req, res) => {
     try {
-        const workflows = await Workflow.find().sort({ createdAt: -1});
-        res.json(workflows);
+        const { page = 1, limit = 10, search = "" } = req.query;
+        const query = search ? { name: { $regex: search, $options: "i" } } : {};
+
+        const workflows = await Workflow.find(query)
+            .sort({ createdAt: -1 })
+            .skip((page - 1) * limit)
+            .limit(Number(limit));
+
+        const total = await Workflow.countDocuments(query);
+
+        res.json({ workflows, total, page: Number(page), limit: Number(limit) });
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
@@ -39,20 +48,24 @@ exports.getWorkflowById = async (req, res) => {
 };
 
 exports.updateWorkflow = async (req, res) => {
-    try {
-        const workflow = await Workflow.findByIdAndUpdate(req.params.id, req.body, {
-            new: true,
-            runValidators: true,
-        });
+  try {
+    const workflow = await Workflow.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      {
+        new: true,
+        runValidators: true,
+      }
+    );
 
-        if (!workflow) {
-            return res.status(404).json({ error: "Workflow not found" });
-        } 
-
-        res.json(workflow);
-    } catch (error) {
-        res.status(400).json({ error: error.message });
+    if (!workflow) {
+      return res.status(404).json({ error: "Workflow not found" });
     }
+
+    res.json(workflow);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
 };
 
 exports.deleteWorkflow = async (req, res) => {

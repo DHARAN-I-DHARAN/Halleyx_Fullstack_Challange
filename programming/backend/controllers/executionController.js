@@ -5,11 +5,22 @@ const { runExecution } = require("../services/executionEngine");
 exports.startExecution = async (req, res) => {
     try {
         const { workflowId } = req.params;
+        console.log("workflowId received:", workflowId);
         const inputData = req.body;
 
         const workflow = await Workflow.findById(workflowId);
         if (!workflow) {
             return res.status(404).json({ error: "Workflow not found "});
+        }
+        
+        const schema = workflow.inputSchema || {};
+        for (const [field, rules] of Object.entries(schema)) {
+            if (rules.required && inputData[field] === undefined) {
+                return res.status(400).json({ error: `Missing required field: ${field}` });
+            }
+            if (rules.allowed_values && !rules.allowed_values.includes(inputData[field])) {
+                return res.status(400).json({ error: `Invalid value for ${field}` });
+            }
         }
 
         const execution = await Execution.create({
@@ -42,7 +53,7 @@ exports.getExecutionById = async (req, res) => {
                 return res.status(404).json({ error: "Execution not Found" });
             }
 
-            res.json(execution);
+        res.json(execution);
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
@@ -62,8 +73,8 @@ exports.getAllExecutions = async (req, res) => {
 
 exports.cancelExecution = async (req, res) => {
     try {
-        const execution = await Execution.findById(req.params.id);
-
+        const execution = await Execution.findById(req.params.id)
+            .populate("currentStep");
         if (!execution) {
             return res.status(404).json({ error: "Execution not found" });
         }
@@ -77,9 +88,9 @@ exports.cancelExecution = async (req, res) => {
         execution.status = "canceled";
         execution.endedAt = new Date();
         execution.logs.push({
-            step: execution.currentStep || null,
-            stepName: "",
-            stepType: "",
+            step: execution.currentStep?._id || null,
+            stepName: execution.currentStep?.name || "Unknown",
+            stepType: execution.currentStep?.stepType || "Unknown", 
             evaluatedRules: [],
             status: "failed",
             message: "Execution cancelled manually",

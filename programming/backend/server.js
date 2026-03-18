@@ -2,17 +2,14 @@ const express = require("express");
 const cors = require("cors");
 const dotenv = require("dotenv");
 const connectDB = require("./config/db");
-const Workflow = require("./models/Workflow")
-const Step = require("./models/Step")
-const Rule = require("./models/Rule")
-const Execution = require("./models/Execution")
+
 
 dotenv.config();
 connectDB();
 
 const app = express();
 
-app.use(cors());
+app.use(cors({ origin: process.env.ALLOWED_ORIGIN || "http://localhost:5173" }));
 app.use(express.json());
 
 app.get("/", (req, res) => {

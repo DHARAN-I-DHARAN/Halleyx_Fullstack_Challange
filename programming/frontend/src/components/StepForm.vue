@@ -85,7 +85,7 @@ const handleSubmit = () => {
 .form-group input,
 .form-group select {
     padding: 10px;
-    border: 1px soild #ccc;
+    border: 1px solid #ccc;
     border-radius: 6px;
 }
 

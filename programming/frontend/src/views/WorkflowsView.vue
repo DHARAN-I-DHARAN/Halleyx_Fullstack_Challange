@@ -58,7 +58,7 @@ const fetchWorkflows = async () => {
     loading.value = true;
     error.value = "";
     const response = await api.get("/workflows");
-    workflows.value = response.data;
+    workflows.value = response.data.workflows;
   } catch (err) {
     error.value = err.response?.data?.error || "Failed to fetch workflows";
   } finally {

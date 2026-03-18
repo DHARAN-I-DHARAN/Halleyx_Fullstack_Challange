@@ -13,17 +13,33 @@
         </div>
 
         <div class="form-group">
-            <label for="rule-condition">Condition</label>
-            <input 
-            type="text" 
-            id="rule-condition" 
-            v-model="form.condition"
-            placeholder="amount > 100 && country === 'US' OR DEFAULT" 
-            required />
+            <label>Conditions</label>
+
+            <div v-for="(cond, index) in form.conditions" :key="index" class="condition-row">
+                
+                <select v-model="cond.field">
+                    <option value="amount">Amount</option>
+                    <option value="country">Country</option>
+                    <option value="priority">Priority</option>
+                </select>
+
+                <select v-model="cond.operator">
+                    <option value=">">></option>
+                    <option value="<"><</option>
+                    <option value="===">=</option>
+                </select>
+
+                <input v-model="cond.value" placeholder="Value" />
+               
+                <button type="button" @click="removeCondition(index)">❌</button>
+
+            </div>
+
+            <button type="button" @click="addCondition">+ Add Condition</button>
         </div>
 
         <div class="form-group">
-            <label for="rule-priority">priority</label>
+            <label for="rule-priority">Priority</label>
             <input type="number" id="rule-priority" v-model.number="form.priority" min="1" required />
         </div>
 
@@ -55,17 +71,53 @@ defineProps({
 const emit = defineEmits(["created"]);
 
 const form = reactive({
-    stepId: "",
-    condition: "",
-    priority: 1,
-    nextStep: null,
+  stepId: "",
+  conditions: [
+    {
+      field: "amount",
+      operator: ">",
+      value: "",
+    },
+  ],
+  priority: 1,
+  nextStep: null,
 });
+
+const buildCondition = () => {
+  if (
+    form.conditions.length === 1 &&
+    form.conditions[0].value === "DEFAULT"
+  ) {
+    return "DEFAULT";
+  }
+
+  const parts = form.conditions.map((cond) => {
+    if (cond.field === "country" || cond.field === "priority") {
+      return `${cond.field} === '${cond.value}'`;
+    }
+    return `${cond.field} ${cond.operator} ${cond.value}`;
+  });
+
+  return parts.join(" && ");
+};
+
+const addCondition = () => {
+  form.conditions.push({
+    field: "amount",
+    operator: ">",
+    value: "",
+  });
+};
+
+const removeCondition = (index) => {
+  form.conditions.splice(index, 1);
+};
 
 const handleSubmit = () => {
     emit("created", {
         stepId: form.stepId,
         payload: {
-            condition: form.condition,
+            condition: buildCondition(),
             priority: form.priority,
             nextStep: form.nextStep || null,
         },
@@ -113,6 +165,18 @@ const handleSubmit = () => {
     padding: 10px;
     border-radius: 6px;
     cursor: pointer;
+}
+
+.condition-row {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 8px;
+  align-items: center;
+}
+
+.condition-row input,
+.condition-row select {
+  padding: 6px;
 }
 
 </style>

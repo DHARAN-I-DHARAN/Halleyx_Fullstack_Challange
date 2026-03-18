@@ -11,7 +11,7 @@
 
     <div class="Summary-card" v-if="workflow">
       <p><strong>Version:</strong> {{ workflow.version }}</p>
-      <p><strong>Active:</strong>{{ workflow.IsActive ? "Yes" : "No"}}</p>
+      <p><strong>Active:</strong>{{ workflow.isActive ? "Yes" : "No"}}</p>
 
       <div class="start-step-row">
         <label for="start-step"><strong>Start Step:</strong></label>
@@ -52,16 +52,17 @@
 
               <div class="rules-box">
                 <h4>Rules</h4>
-                <p v-if="getRulesForStep(step.id).length === 0">No rules for this step. </p>
+                <p v-if="getRulesForStep(step._id).length === 0">No rules for this step. </p>
 
-                <div 
-                v-for="rule in getRulesForStep(step._id)"
-                :key="rule.id"
-                class="rule-item" >
-                  <p><strong>Condition:</strong>{{ rule.condition }}</p>
-                  <p><strong>Priority</strong>{{ rule.priority }}</p>
-                  <p><strong>Next Step:</strong>{{ getStepName(rule.nextStep || "End workflow") }}
+                <div v-for="rule in getRulesForStep(step._id)" :key="rule.id" class="rule-item" >
+                  <p><strong>Condition: </strong>{{ rule.condition }}</p>
+                  <p><strong>Priority: </strong>{{ rule.priority }}</p>
+                  <p><strong>Next Step: </strong>{{ getStepName(rule.nextStep || "End workflow") }}
                   </p>
+                  <div class="rule-actions">
+                  <button class="btn secondary" @click="editRule(rule)">Edit</button>
+                  <button class="btn danger" @click="deleteRule(rule._id)">Delete</button>
+                </div>
                 </div>
 
               </div>
@@ -91,6 +92,11 @@ import { useRoute } from "vue-router";
 const route = useRoute();
 const workflowId = route.params.id;
 
+const props = defineProps({
+  id: String
+});
+
+console.log(props.id);
 const workflow = ref(null);
 const steps = ref([]);
 const rules = ref([]);
@@ -116,7 +122,7 @@ const createStep = async (payload) => {
     await api.post(`/steps/workflow/${workflowId}`, payload);
     await fetchWorkflowDetails();
   } catch (err) {
-    error.value = err.reponse?.data?.error || "Failed to create step";
+    error.value = err.response?.data?.error || "Failed to create step";
   }
 };
 
@@ -126,8 +132,30 @@ const createRule = async ({ stepId, payload }) => {
     await api.post(`/rules/step/${stepId}`, payload);
     await fetchWorkflowDetails();
   } catch (err) {
-    error.value = err.reponse?.data?.error || "Failed to create rule";
+    error.value = err.response?.data?.error || "Failed to create rule";
   }
+};
+
+const deleteRule = async (ruleId) => {
+  try {
+    await api.delete(`/rules/${ruleId}`);
+    await fetchWorkflowDetails(); 
+  } catch (err) {
+    error.value = err.response?.data?.error || "Failed to delete rule";
+  }
+};
+
+const editRule = (rule) => {
+  const condition = prompt("Enter condition:", rule.condition);
+  const priority = prompt("Enter priority:", rule.priority);
+
+  if (!condition || !priority) return;
+
+  updateRule(rule._id, {
+    condition,
+    priority: Number(priority),
+    nextStep: rule.nextStep,
+  });
 };
 
 const updateStartStep = async () => {
@@ -138,7 +166,16 @@ const updateStartStep = async () => {
     });
     await fetchWorkflowDetails();
   } catch (err) {
-    error.value = err.reponse?.data?.error || "Failed to update start step";
+    error.value = err.response?.data?.error || "Failed to update start step";
+  }
+};
+
+const updateRule = async (ruleId, updatedData) => {
+  try {
+    await api.put(`/rules/${ruleId}`, updatedData);
+    await fetchWorkflowDetails();
+  } catch (err) {
+    error.value = err.response?.data?.error || "Failed to update rule";
   }
 };
 
@@ -150,12 +187,13 @@ const getRulesForStep =(stepId) =>  {
 };
 
 const getStepName = (stepId) => {
-  const found = steps.value.find((step) => step.id === stepId );
+  const found = steps.value.find((step) => step._id === stepId );
   return found ? found.name : null;
 };
 
 onMounted(() => {
   fetchWorkflowDetails();
+  
 });
 
 </script>
@@ -176,7 +214,7 @@ onMounted(() => {
 .summary-card ,
 .list-card {
   background: white;
-  border: 1px soild #ddd;
+  border: 1px solid #ddd;
   border-radius: 10px;
   padding: 20px;
   margin-bottom: 20px;
@@ -187,6 +225,7 @@ onMounted(() => {
   gap: 10px;
   align-items: center;
   margin-top: 14px;
+  margin-bottom:10px;
   flex-wrap: wrap;
 }
 
@@ -231,6 +270,12 @@ onMounted(() => {
   border: 1px solid #e5e7eb;
   border-radius: 6px;
   padding: 12px;
+  margin-top: 10px;
+}
+
+.rule-actions {
+  display: flex;
+  gap: 10px;
   margin-top: 10px;
 }
 

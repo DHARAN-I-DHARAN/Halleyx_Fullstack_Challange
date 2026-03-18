@@ -65,7 +65,7 @@ const ExecutionSchema = new mongoose.Schema(
             default: "pending",
         },
         inputData: {
-            type: Object,
+            type: mongoose.Schema.Types.Mixed,
             default: {},
         },
         currentStep: {

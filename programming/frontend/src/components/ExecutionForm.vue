@@ -60,6 +60,11 @@ const form = reactive({
 });
 
 const handleSubmit = () => {
+  if (!selectedWorkflow.value) {
+    alert("Please select a workflow");
+    return;
+  }
+  
   emit("run", {
     workflowId: selectedWorkflow.value,
     input: { ...form },

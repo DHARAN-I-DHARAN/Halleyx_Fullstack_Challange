@@ -45,7 +45,7 @@ const runExecution = async (executionId) => {
             startedAt: new Date(),
             endedAt: new Date(),
         });
-        execution.endedAt = new Data();
+        execution.endedAt = new Date();
         await execution.save();
         return execution;
     }
@@ -63,7 +63,7 @@ const runExecution = async (executionId) => {
             startedAt: new Date(),
             endedAt: new Date(),
         });
-        execution.endedAt = new Data();
+        execution.endedAt = new Date();
         await execution.save();
         return execution;
     }
@@ -71,9 +71,16 @@ const runExecution = async (executionId) => {
     execution.status = "in_progress";
     await execution.save();
 
+    const MAX_STEPS = process.env.MAX_EXECUTION_STEPS || 50;
+    let stepCount = 0;
+    
     while (currentStepId) {
         const step = await Step.findById(currentStepId);
-
+        if (++stepCount > MAX_STEPS) {
+        execution.status = "failed";
+        execution.logs.push({ message: "Max step limit reached — possible infinite loop" });
+        break;
+        } 
         if (!step) {
             execution.status = "failed";
             execution.logs.push({
@@ -85,7 +92,7 @@ const runExecution = async (executionId) => {
                 startedAt: new Date(),
                 endedAt: new Date(),
             });
-            execution.endedAt = new Data();
+            execution.endedAt = new Date();
             await execution.save();
             return execution;
         }
